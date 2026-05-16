@@ -2,26 +2,32 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { Search } from 'lucide-react'
+
+const heroVideos = [
+  'https://videos.pexels.com/video-files/7578552/7578552-uhd_2560_1440_30fps.mp4',
+  'https://player.vimeo.com/external/434045526.hd.mp4?s=c27eecc69a27dbc4ff2b87d38afc35f1a9e7c02d&profile_id=174&oauth2_token_id=57447761',
+]
 
 export default function Hero() {
   return (
     <section className="relative h-screen w-full overflow-hidden">
-      {/* Video Background */}
       <div className="absolute inset-0">
         <video
           autoPlay
           muted
           loop
           playsInline
+          preload="auto"
           className="h-full w-full object-cover"
           poster="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80"
+          aria-label="Luxury real estate video background"
         >
-          <source
-            src="https://player.vimeo.com/external/434045526.hd.mp4?s=c27eecc69a27dbc4ff2b87d38afc35f1a9e7c02d&profile_id=174&oauth2_token_id=57447761"
-            type="video/mp4"
-          />
+          {heroVideos.map((src) => (
+            <source key={src} src={src} type="video/mp4" />
+          ))}
+          Your browser does not support the video tag.
         </video>
-        {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
       </div>
 
@@ -34,7 +40,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-white/80 text-sm tracking-[0.3em] uppercase mb-6"
           >
-            Premium Real Estate Development
+            Buy, rent, and discover homes
           </motion.p>
           
           <motion.h1
@@ -43,11 +49,11 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="font-serif text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white leading-[1.1] tracking-tight"
           >
-            Crafting
+            Find
             <br />
-            <span className="italic">Exceptional</span>
+            <span className="italic">your next</span>
             <br />
-            Living Spaces
+            home
           </motion.h1>
 
           <motion.p
@@ -56,27 +62,43 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-8 text-lg md:text-xl text-white/70 max-w-xl leading-relaxed"
           >
-            Where timeless design meets uncompromising quality. Discover our portfolio of distinguished residential and commercial developments.
+            Search residences, new homes, commercial spaces, and trusted property advice in one simple place.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-12 flex flex-col sm:flex-row gap-4"
+            className="mt-10 w-full max-w-3xl overflow-hidden rounded-md bg-white p-2 shadow-2xl"
           >
-            <Link
-              href="/portfolio"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white text-foreground text-sm tracking-widest uppercase hover:bg-white/90 transition-all duration-300"
-            >
-              View Portfolio
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 border border-white text-white text-sm tracking-widest uppercase hover:bg-white hover:text-foreground transition-all duration-300"
-            >
-              Get in Touch
-            </Link>
+            <div className="flex flex-col gap-2 md:flex-row">
+              <div className="flex flex-1 items-center gap-3 px-4 py-3 text-slate-500">
+                <Search className="h-5 w-5 shrink-0" aria-hidden="true" />
+                <span className="text-left text-base">Search by city, community, or property name</span>
+              </div>
+              <Link
+                href="/portfolio"
+                className="inline-flex items-center justify-center rounded bg-[#1f86ff] px-8 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#126bd3]"
+              >
+                Search
+              </Link>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-2 border-t border-slate-100 pt-3">
+              {[
+                { href: '/portfolio', label: 'Buy' },
+                { href: '/portfolio?type=rent', label: 'Rent' },
+                { href: '/portfolio?status=upcoming', label: 'New Homes' },
+                { href: '/portfolio?type=commercial', label: 'Commercial' },
+              ].map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-[#1f86ff] hover:text-[#1f86ff]"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>

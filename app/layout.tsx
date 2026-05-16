@@ -4,15 +4,15 @@ import { Toaster } from 'react-hot-toast'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'RB Developers | Premium Real Estate Development',
-  description: 'Crafting exceptional living spaces with timeless design and uncompromising quality. Discover our portfolio of luxury residential and commercial developments.',
-  keywords: ['real estate', 'luxury homes', 'property development', 'residential', 'commercial', 'premium'],
+  title: 'rbdevelopers | Buy, Rent & Discover Property',
+  description: 'Search homes for sale, rental properties, new homes, commercial spaces, mortgages, and property advice.',
+  keywords: ['real estate', 'homes for sale', 'rentals', 'new homes', 'commercial property', 'mortgages'],
   authors: [{ name: 'RB Developers' }],
   openGraph: {
-    title: 'RB Developers | Premium Real Estate Development',
-    description: 'Crafting exceptional living spaces with timeless design and uncompromising quality.',
+    title: 'rbdevelopers | Buy, Rent & Discover Property',
+    description: 'Search homes, rentals, new developments, commercial spaces, mortgages, and property advice.',
     type: 'website',
-    siteName: 'RB Developers',
+    siteName: 'rbdevelopers',
   },
 }
 

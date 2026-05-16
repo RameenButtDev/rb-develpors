@@ -1,16 +1,16 @@
 import Link from 'next/link'
 
 const footerLinks = {
-  company: [
-    { href: '/about', label: 'About Us' },
-    { href: '/portfolio', label: 'Portfolio' },
-    { href: '/contact', label: 'Contact' },
-    { href: '/careers', label: 'Careers' },
+  search: [
+    { href: '/portfolio', label: 'Buy' },
+    { href: '/portfolio?type=rent', label: 'Rent' },
+    { href: '/portfolio?status=upcoming', label: 'New Homes' },
+    { href: '/portfolio?type=commercial', label: 'Commercial' },
   ],
-  properties: [
-    { href: '/portfolio?status=active', label: 'Current Projects' },
-    { href: '/portfolio?status=completed', label: 'Completed' },
-    { href: '/portfolio?status=upcoming', label: 'Coming Soon' },
+  resources: [
+    { href: '/about', label: 'Advice Hub' },
+    { href: '/contact', label: 'Mortgages' },
+    { href: '/contact', label: 'Place Ad' },
   ],
   legal: [
     { href: '/privacy', label: 'Privacy Policy' },
@@ -29,10 +29,10 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link href="/" className="font-serif text-3xl tracking-tight">
-              RB Developers
+              rbdevelopers
             </Link>
             <p className="mt-6 text-primary-foreground/70 leading-relaxed max-w-sm">
-              Crafting exceptional living spaces with timeless design and uncompromising quality since 1995.
+              Search homes, rental properties, new developments, and commercial spaces with clear tools for every move.
             </p>
             
             {/* Social Links */}
@@ -69,9 +69,9 @@ export default function Footer() {
 
           {/* Company Links */}
           <div>
-            <h4 className="text-sm tracking-widest uppercase mb-6">Company</h4>
+            <h4 className="text-sm tracking-widest uppercase mb-6">Search</h4>
             <ul className="space-y-4">
-              {footerLinks.company.map((link) => (
+              {footerLinks.search.map((link) => (
                 <li key={link.href}>
                   <Link 
                     href={link.href}
@@ -86,9 +86,9 @@ export default function Footer() {
 
           {/* Properties Links */}
           <div>
-            <h4 className="text-sm tracking-widest uppercase mb-6">Properties</h4>
+            <h4 className="text-sm tracking-widest uppercase mb-6">Resources</h4>
             <ul className="space-y-4">
-              {footerLinks.properties.map((link) => (
+              {footerLinks.resources.map((link) => (
                 <li key={link.href}>
                   <Link 
                     href={link.href}
@@ -129,7 +129,7 @@ export default function Footer() {
         <div className="container mx-auto px-6 lg:px-12 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-primary-foreground/50">
-              {currentYear} RB Developers. All rights reserved.
+              {currentYear} rbdevelopers. All rights reserved.
             </p>
             <div className="flex gap-8">
               {footerLinks.legal.map((link) => (

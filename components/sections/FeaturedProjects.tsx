@@ -11,7 +11,7 @@ const featuredProjects = [
   {
     _id: '1',
     slug: 'the-greenwich',
-    title: 'The Greenwich',
+    title: 'Family Home in Greenwich',
     location: { city: 'New York', state: 'NY' },
     status: 'active',
     propertyType: 'residential',
@@ -21,7 +21,7 @@ const featuredProjects = [
   {
     _id: '2',
     slug: 'azure-tower',
-    title: 'Azure Tower',
+    title: 'Azure Tower Apartment',
     location: { city: 'Miami', state: 'FL' },
     status: 'active',
     propertyType: 'mixed-use',
@@ -31,7 +31,7 @@ const featuredProjects = [
   {
     _id: '3',
     slug: 'parkside-residences',
-    title: 'Parkside Residences',
+    title: 'Parkside New Homes',
     location: { city: 'Chicago', state: 'IL' },
     status: 'completed',
     propertyType: 'residential',
@@ -118,7 +118,7 @@ export default function FeaturedProjects() {
               transition={{ duration: 0.6 }}
               className="text-sm tracking-[0.3em] uppercase text-muted-foreground"
             >
-              Our Portfolio
+              Featured Listings
             </motion.span>
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
@@ -126,7 +126,7 @@ export default function FeaturedProjects() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="mt-4 font-serif text-4xl md:text-5xl lg:text-6xl text-foreground tracking-tight"
             >
-              Featured Projects
+              Homes people are viewing now
             </motion.h2>
           </div>
           
@@ -139,7 +139,7 @@ export default function FeaturedProjects() {
               href="/portfolio"
               className="inline-flex items-center gap-3 text-sm tracking-widest uppercase text-foreground hover:text-accent transition-colors group"
             >
-              View All Projects
+              View All Listings
               <svg 
                 className="w-4 h-4 transition-transform group-hover:translate-x-1" 
                 fill="none" 

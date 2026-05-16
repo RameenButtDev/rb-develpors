@@ -18,7 +18,7 @@ export default function VisionStatement() {
             transition={{ duration: 0.6 }}
             className="text-sm tracking-[0.3em] uppercase text-muted-foreground"
           >
-            Our Vision
+            Why RB Developers
           </motion.span>
           
           <motion.h2
@@ -27,9 +27,9 @@ export default function VisionStatement() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mt-8 font-serif text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight tracking-tight text-balance"
           >
-            We believe that exceptional architecture has the power to{' '}
-            <span className="italic text-accent">transform</span> lives and{' '}
-            <span className="italic text-accent">elevate</span> communities.
+            A simpler way to{' '}
+            <span className="italic text-accent">search</span>, compare, and{' '}
+            <span className="italic text-accent">choose</span> property.
           </motion.h2>
           
           <motion.p
@@ -38,9 +38,8 @@ export default function VisionStatement() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-10 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
           >
-            For over three decades, RB Developers has been at the forefront of creating 
-            spaces that inspire. Our commitment to quality craftsmanship and innovative 
-            design has established us as a leader in premium real estate development.
+            Browse homes for sale, rental listings, new developments, and commercial
+            spaces with clear details, helpful filters, and direct inquiry options.
           </motion.p>
 
           {/* Stats */}
@@ -51,10 +50,10 @@ export default function VisionStatement() {
             className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12"
           >
             {[
-              { value: '30+', label: 'Years of Excellence' },
-              { value: '150+', label: 'Projects Completed' },
-              { value: '12M', label: 'Sq Ft Developed' },
-              { value: '25', label: 'Cities Worldwide' },
+              { value: '150+', label: 'Active Listings' },
+              { value: '25', label: 'Local Areas' },
+              { value: '12K', label: 'Monthly Searches' },
+              { value: '4', label: 'Property Categories' },
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}

@@ -32,7 +32,7 @@ export default function CTASection() {
             transition={{ duration: 0.6 }}
             className="text-sm tracking-[0.3em] uppercase text-primary-foreground/60"
           >
-            Begin Your Journey
+            List With Us
           </motion.span>
 
           <motion.h2
@@ -41,8 +41,7 @@ export default function CTASection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mt-8 font-serif text-4xl md:text-5xl lg:text-6xl leading-tight tracking-tight text-balance"
           >
-            Ready to discover your next{' '}
-            <span className="italic">exceptional</span> space?
+            Ready to place your property in front of serious buyers and renters?
           </motion.h2>
 
           <motion.p
@@ -51,8 +50,8 @@ export default function CTASection() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-8 text-lg md:text-xl text-primary-foreground/70 max-w-2xl mx-auto leading-relaxed"
           >
-            Our team of experts is ready to guide you through our portfolio 
-            and help you find the perfect property that matches your vision.
+            Create a listing, promote a new home, or speak with our team about
+            reaching people who are actively searching.
           </motion.p>
 
           <motion.div
@@ -65,13 +64,13 @@ export default function CTASection() {
               href="/contact"
               className="inline-flex items-center justify-center px-10 py-4 bg-primary-foreground text-primary text-sm tracking-widest uppercase hover:bg-primary-foreground/90 transition-all duration-300"
             >
-              Schedule a Consultation
+              Place Ad
             </Link>
             <Link
               href="/portfolio"
               className="inline-flex items-center justify-center px-10 py-4 border border-primary-foreground/30 text-primary-foreground text-sm tracking-widest uppercase hover:border-primary-foreground hover:bg-primary-foreground/10 transition-all duration-300"
             >
-              Explore Properties
+              Browse Listings
             </Link>
           </motion.div>
         </div>
