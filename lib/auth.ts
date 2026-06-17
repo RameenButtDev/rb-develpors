@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import type { SignOptions } from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 
-const JWT_EXPIRE = (process.env.JWT_EXPIRE || '7d') as SignOptions['expiresIn']
+const JWT_EXPIRE = (process.env.NEXT_PUBLIC_JWT_EXPIRE || '7d') as SignOptions['expiresIn']
 
 export interface JWTPayload {
   userId: string

@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
-console.log("MONGODB_URI:", MONGODB_URI);
-if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI environment variable");
+const MONGO_URI = process.env.MONGO_URI;
+
+if (!MONGO_URI) {
+  throw new Error("Please define the MONGO_URI environment variable in .env.local");
 }
 
-const mongoUri: string = MONGODB_URI;
+const mongoUri: string = MONGO_URI;
 
 interface MongooseCache {
   conn: typeof mongoose | null;
@@ -29,23 +29,23 @@ async function connectDB(): Promise<typeof mongoose> {
   }
 
   if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-
-    cached.promise = mongoose.connect(mongoUri, opts).then((mongoose) => {
-      return mongoose;
-    });
+    cached.promise = mongoose
+      .connect(mongoUri, {
+        bufferCommands: false,
+        serverSelectionTimeoutMS: 10000,
+        socketTimeoutMS: 45000,
+      })
+      .then((conn) => {
+        console.log("✅ MongoDB connected");
+        return conn;
+      })
+      .catch((err) => {
+        cached.promise = null;
+        throw err;
+      });
   }
 
-  try {
-    cached.conn = await cached.promise;
-    console.log("MongoDB connected");
-  } catch (e) {
-    cached.promise = null;
-    throw e;
-  }
-
+  cached.conn = await cached.promise;
   return cached.conn;
 }
 

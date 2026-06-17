@@ -1,72 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
-import connectDB from '@/lib/db'
-import Inquiry from '@/lib/models/Inquiry'
-import { getCurrentUser, isAdmin } from '@/lib/auth'
 
-// GET /api/inquiries - List all inquiries (Admin only)
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000'
+
 export async function GET() {
   try {
-    const isAdminUser = await isAdmin()
-    if (!isAdminUser) {
-      return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    await connectDB()
-
-    const inquiries = await Inquiry.find()
-      .populate('property', 'title slug')
-      .sort({ createdAt: -1 })
-      .lean()
-
-    return NextResponse.json({ success: true, data: inquiries })
+    const response = await fetch(`${BACKEND_URL}/api/inquiries`, {
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const data = await response.json()
+    return NextResponse.json(data, { status: response.status })
   } catch (error) {
-    console.error('Error fetching inquiries:', error)
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch inquiries' },
-      { status: 500 }
-    )
+    return NextResponse.json({ success: false, error: 'Failed to fetch inquiries' }, { status: 500 })
   }
 }
 
-// POST /api/inquiries - Submit a new inquiry (Public)
 export async function POST(request: NextRequest) {
   try {
-    await connectDB()
-
     const body = await request.json()
-    const { name, email, phone, message, inquiryType, property } = body
-
-    // Validate required fields
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { success: false, error: 'Name, email, and message are required' },
-        { status: 400 }
-      )
-    }
-
-    // Create inquiry
-    const inquiry = await Inquiry.create({
-      name,
-      email,
-      phone,
-      message,
-      inquiryType: inquiryType || 'general',
-      property: property || undefined,
-      status: 'new',
+    const response = await fetch(`${BACKEND_URL}/api/inquiries`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
     })
-
-    return NextResponse.json(
-      { success: true, data: inquiry },
-      { status: 201 }
-    )
+    const data = await response.json()
+    return NextResponse.json(data, { status: response.status })
   } catch (error) {
-    console.error('Error creating inquiry:', error)
-    return NextResponse.json(
-      { success: false, error: 'Failed to submit inquiry' },
-      { status: 500 }
-    )
+    return NextResponse.json({ success: false, error: 'Failed to submit inquiry' }, { status: 500 })
   }
 }

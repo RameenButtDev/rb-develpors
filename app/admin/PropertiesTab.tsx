@@ -21,50 +21,34 @@ interface Property {
 }
 
 // Sample data for demonstration
-const sampleProperties: Property[] = [
-  {
-    _id: '1',
-    title: 'The Greenwich',
-    slug: 'the-greenwich',
-    status: 'active',
-    propertyType: 'residential',
-    location: { city: 'New York', state: 'NY' },
-    price: 4500000,
-    images: ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80'],
-    featured: true,
-    createdAt: new Date().toISOString(),
-  },
-  {
-    _id: '2',
-    title: 'Azure Tower',
-    slug: 'azure-tower',
-    status: 'active',
-    propertyType: 'mixed-use',
-    location: { city: 'Miami', state: 'FL' },
-    price: 8500000,
-    images: ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&q=80'],
-    featured: true,
-    createdAt: new Date().toISOString(),
-  },
-  {
-    _id: '3',
-    title: 'Parkside Residences',
-    slug: 'parkside-residences',
-    status: 'completed',
-    propertyType: 'residential',
-    location: { city: 'Chicago', state: 'IL' },
-    price: 3200000,
-    images: ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&q=80'],
-    featured: true,
-    createdAt: new Date().toISOString(),
-  },
-]
+const sampleProperties: Property[] = []
 
 export default function PropertiesTab() {
-  const [properties, setProperties] = useState<Property[]>(sampleProperties)
-  const [isLoading, setIsLoading] = useState(false)
+  const [properties, setProperties] = useState<Property[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingProperty, setEditingProperty] = useState<Property | null>(null)
+
+  // Fetch properties on mount
+  useEffect(() => {
+    fetchProperties()
+  }, [])
+
+  const fetchProperties = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch('/api/properties?limit=100')
+      if (!response.ok) throw new Error('Failed to fetch properties')
+      
+      const data = await response.json()
+      setProperties(data.data || [])
+    } catch (error) {
+      console.error('Error fetching properties:', error)
+      toast.error('Failed to load properties')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleEdit = (property: Property) => {
     setEditingProperty(property)
@@ -75,10 +59,15 @@ export default function PropertiesTab() {
     if (!confirm('Are you sure you want to delete this property?')) return
 
     try {
-      // API call would go here
+      const response = await fetch(`/api/properties/${id}`, {
+        method: 'DELETE',
+      })
+      if (!response.ok) throw new Error('Failed to delete')
+      
       setProperties(properties.filter((p) => p._id !== id))
       toast.success('Property deleted')
-    } catch {
+    } catch (error) {
+      console.error('Error deleting property:', error)
       toast.error('Failed to delete property')
     }
   }
@@ -86,6 +75,7 @@ export default function PropertiesTab() {
   const handleModalClose = () => {
     setIsModalOpen(false)
     setEditingProperty(null)
+    fetchProperties() // Refresh list after modal closes
   }
 
   const statusColors = {

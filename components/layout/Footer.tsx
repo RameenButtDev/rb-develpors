@@ -88,8 +88,8 @@ export default function Footer() {
           <div>
             <h4 className="text-sm tracking-widest uppercase mb-6">Resources</h4>
             <ul className="space-y-4">
-              {footerLinks.resources.map((link) => (
-                <li key={link.href}>
+              {footerLinks.resources.map((link, index) => (
+                <li key={`${link.label}-${index}`}>
                   <Link 
                     href={link.href}
                     className="text-primary-foreground/70 hover:text-primary-foreground transition-colors duration-300"

@@ -92,11 +92,33 @@ export default function PropertyFormModal({ isOpen, onClose, property }: Propert
   const onSubmit = async (data: PropertyFormData) => {
     setIsSubmitting(true)
     try {
-      // API call would go here
+      const location = `${data.address}, ${data.city}, ${data.state}`
+      
+      const payload = {
+        title: data.title,
+        description: data.description,
+        location,
+        price: data.price,
+      }
+
+      const url = property ? `/api/properties/${property._id}` : '/api/properties'
+      const method = property ? 'PUT' : 'POST'
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+
+      if (!response.ok) {
+        const result = await response.json()
+        throw new Error(result.error || 'Failed to save property')
+      }
+
       toast.success(property ? 'Property updated!' : 'Property created!')
       onClose()
-    } catch {
-      toast.error('Something went wrong')
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Something went wrong')
     } finally {
       setIsSubmitting(false)
     }

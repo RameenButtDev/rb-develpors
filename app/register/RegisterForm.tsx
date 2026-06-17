@@ -11,9 +11,9 @@ import { useAuthStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 
 const registerSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
+  fullName: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
@@ -42,7 +42,7 @@ export default function RegisterForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: data.name,
+          fullName: data.fullName,
           email: data.email,
           password: data.password,
         }),
@@ -56,7 +56,7 @@ export default function RegisterForm() {
 
       setUser({
         id: result.data.id,
-        name: result.data.name,
+        name: result.data.fullName,
         email: result.data.email,
         role: result.data.role,
       })
@@ -74,22 +74,22 @@ export default function RegisterForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Name */}
       <div>
-        <label htmlFor="name" className="block text-sm tracking-wide text-muted-foreground uppercase mb-2">
+        <label htmlFor="fullName" className="block text-sm tracking-wide text-muted-foreground uppercase mb-2">
           Full Name
         </label>
         <input
-          id="name"
+          id="fullName"
           type="text"
-          {...register('name')}
+          {...register('fullName')}
           className={cn(
             'w-full px-4 py-3 bg-transparent border text-foreground placeholder:text-muted-foreground/50',
             'focus:outline-none focus:border-accent transition-colors',
-            errors.name ? 'border-destructive' : 'border-border'
+            errors.fullName ? 'border-destructive' : 'border-border'
           )}
           placeholder="John Doe"
         />
-        {errors.name && (
-          <p className="mt-1 text-sm text-destructive">{errors.name.message}</p>
+        {errors.fullName && (
+          <p className="mt-1 text-sm text-destructive">{errors.fullName.message}</p>
         )}
       </div>
 

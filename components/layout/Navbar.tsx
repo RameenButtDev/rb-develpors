@@ -58,9 +58,9 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden min-w-0 flex-1 items-center justify-center gap-9 px-8 lg:flex">
-          {navLinks.map((link) => (
+          {navLinks.map((link, index) => (
             <Link
-              key={link.label}
+              key={`${link.label}-${index}`}
               href={link.href}
               className={cn(
                 'flex items-center gap-2 whitespace-nowrap text-[16px] font-medium text-slate-950 transition-colors hover:text-[#1f86ff]',

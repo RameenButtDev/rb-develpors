@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import toast from 'react-hot-toast'
 import { cn } from '@/lib/utils'
@@ -17,54 +17,50 @@ interface Inquiry {
   createdAt: string
 }
 
-// Sample data for demonstration
-const sampleInquiries: Inquiry[] = [
-  {
-    _id: '1',
-    name: 'John Smith',
-    email: 'john@example.com',
-    phone: '+1 234 567 890',
-    message: 'I am interested in scheduling a viewing for The Greenwich property. Please contact me at your earliest convenience.',
-    inquiryType: 'viewing',
-    status: 'new',
-    property: { _id: '1', title: 'The Greenwich' },
-    createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
-  },
-  {
-    _id: '2',
-    name: 'Sarah Johnson',
-    email: 'sarah@example.com',
-    phone: '+1 345 678 901',
-    message: 'Could you provide more information about the Azure Tower development, including floor plans and pricing?',
-    inquiryType: 'property',
-    status: 'contacted',
-    property: { _id: '2', title: 'Azure Tower' },
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-  },
-  {
-    _id: '3',
-    name: 'Michael Brown',
-    email: 'michael@example.com',
-    phone: '',
-    message: 'I am looking for commercial space in the downtown area. What options do you have available?',
-    inquiryType: 'general',
-    status: 'closed',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
-  },
-]
-
 export default function InquiriesTab() {
-  const [inquiries, setInquiries] = useState<Inquiry[]>(sampleInquiries)
+  const [inquiries, setInquiries] = useState<Inquiry[]>([])
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Fetch inquiries on mount
+  useEffect(() => {
+    fetchInquiries()
+  }, [])
+
+  const fetchInquiries = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch('/api/inquiries')
+      if (!response.ok) throw new Error('Failed to fetch inquiries')
+      
+      const data = await response.json()
+      setInquiries(data.data || [])
+    } catch (error) {
+      console.error('Error fetching inquiries:', error)
+      toast.error('Failed to load inquiries')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleStatusChange = async (id: string, newStatus: Inquiry['status']) => {
     try {
-      // API call would go here
+      const response = await fetch(`/api/inquiries/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      })
+      if (!response.ok) throw new Error('Failed to update')
+      
       setInquiries(inquiries.map((inq) =>
         inq._id === id ? { ...inq, status: newStatus } : inq
       ))
+      if (selectedInquiry?._id === id) {
+        setSelectedInquiry({ ...selectedInquiry, status: newStatus })
+      }
       toast.success('Status updated')
-    } catch {
+    } catch (error) {
+      console.error('Error updating status:', error)
       toast.error('Failed to update status')
     }
   }
@@ -73,11 +69,16 @@ export default function InquiriesTab() {
     if (!confirm('Are you sure you want to delete this inquiry?')) return
 
     try {
-      // API call would go here
+      const response = await fetch(`/api/inquiries/${id}`, {
+        method: 'DELETE',
+      })
+      if (!response.ok) throw new Error('Failed to delete')
+      
       setInquiries(inquiries.filter((inq) => inq._id !== id))
       if (selectedInquiry?._id === id) setSelectedInquiry(null)
       toast.success('Inquiry deleted')
-    } catch {
+    } catch (error) {
+      console.error('Error deleting inquiry:', error)
       toast.error('Failed to delete inquiry')
     }
   }
